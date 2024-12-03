@@ -1,6 +1,6 @@
 # mcs-ros2
 ## Requirements
-- Ubuntu (22.04 / 24.04) 
+- Ubuntu (22.04 / 24.04) on the AMD64 platform
 - Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 - Docker & Docker compose
 - Git
