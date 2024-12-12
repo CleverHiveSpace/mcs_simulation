@@ -48,3 +48,33 @@ If you have ROS2 installed locally, you can operate the ROSbot either from your 
 ```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
+
+## Building the Workspace
+
+If you don't have colcon installed, run:
+```sh
+sudo apt install python3-colcon-common-extensions
+```
+If you don't have rosdep installed, run:
+```sh
+apt-get install python3-rosdep
+```
+
+All following commands must be used from the root of workspace (mcs-ros2)
+
+Before building the project, resolve dependencies:
+```sh
+rosdep install -i --from-path src --rosdistro jazzy -y # specify ros distro you have installed
+```
+To build the project use command:
+```sh
+colcon build --symlink-install
+```
+Before you can use any of the installed executables or libraries, you will need to add them to your path and library paths. Use the command:
+```sh
+source install/setup.bash
+```
+or if you're using zsh:
+```sh
+source install/setup.zsh
+```
