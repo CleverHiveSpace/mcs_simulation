@@ -9,7 +9,7 @@
 To get started, clone the simulation repository:
 
 ```sh
-git clone https://github.com/husarion/webots-docker/tree/main
+git clone git@github.com:CleverHiveSpace/webots-docker.git
 ```
 
 ### Run the simulation
