@@ -1,0 +1,14 @@
+__pycache__
+.DS_Store
+.env
+# Visual Studio Code configuration
+/.vscode
+/.cache
+
+# ROS 2 build and runtime artifacts
+/build
+/install
+/log
+/frames_*.gv
+/frames_*.pdf
+/robot_localization_debug.txt
