@@ -29,4 +29,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri
       - ../src:/mcs_ws/src
-    command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_husarion ${ROBOT_NAME:-rosbot_xl}_launch.py'
+    command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_husarion ${ROBOT_NAME:-rosbot}_launch.py'

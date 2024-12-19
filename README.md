@@ -5,11 +5,9 @@
 - Docker & Docker compose
 - Git
 ## Simulation
-### Clone the repository
-To get started, clone the simulation repository:
-
+### Init submodule repository
 ```sh
-git clone git@github.com:CleverHiveSpace/webots-docker.git
+git submodule update --init --recursive
 ```
 
 ### Run the simulation
@@ -18,13 +16,13 @@ Add non-network local connections to access control list:
 xhost local:docker
 ```
 
-Set the robot type by specifying the robot name:
+You can set the robot type by specifying the robot name:
 
 ```sh
-export ROBOT_NAME=rosbot
+export ROBOT_NAME=rosbot # this is the default option
 ```
 
-Navigate to the demo directory and start the simulation:
+Navigate to the docker directory and start the simulation:
 ```sh
 docker compose up
 ```
@@ -42,6 +40,10 @@ Next, you can use the teleop_twist tool to control the ROSbot via your keyboard.
 
 ```sh
 docker exec -it rviz bash
+```
+You can also launch rviz locally:
+```sh
+ros2 run rviz2 rviz2
 ```
 
 If you have ROS2 installed locally, you can operate the ROSbot either from your local setup or within the Rviz container by running:
