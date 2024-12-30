@@ -1,0 +1,4 @@
+[submodule "src/mcs_webots_ros2"]
+	path = src/mcs_webots_ros2
+	url = git@github.com:CleverHiveSpace/mcs_webots_ros2.git
+	branch = mcs
