@@ -36,13 +36,20 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
     > [!NOTE]  
     > The initial setup may take some time as required assets are downloaded.
 
-### Connect to the simulation
+![RViz window](./docs/images/webots.jpg)
 
-To visualize the ROSbot's sensor data, you can run Rviz2 within Docker:
+
+### RViz
+
+To visualize the ROSbot's sensor data, you can run RViz2 within Docker:
 
 ```sh
 docker compose -f compose.rviz.yaml up
 ```
+
+![RViz window](./docs/images/rviz.jpg)
+
+### Teleop
 
 Next, you can use the teleop_twist tool to control the ROSbot via your keyboard. To do this, enter the Rviz container in a new terminal:
 
@@ -56,6 +63,12 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
 ### Access the workspace
+> [!TIP]  
+> The workspace is mounted as a volume from the host machine, so any changes made to the files within the container will be reflected on the host machine.
+
+Just go and modify `src/mcs_ros2`. 
+
+OR
 1. Enter the webots container:
     ```sh
     docker exec -it webots bash
@@ -64,9 +77,6 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
     ```sh
     cd /ros2_ws
     ```
-
-> [!TIP]  
-> The workspace is mounted as a volume from the host machine, so any changes made to the files within the container will be reflected on the host machine.
 
 > [!TIP]  
 > Don't forget to `colcon build` and `source install/setup.bash` after any changes to the files within the container.
