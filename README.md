@@ -1,32 +1,40 @@
 # mcs-ros2
-## Requirements
+
+Edge software for integrating ROS 2 / Webots simulation with MCS.
+
+## Prerequisites
 - Ubuntu (22.04 / 24.04) on the AMD64 platform
 - Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 - Docker & Docker compose
 - Git
-## Simulation
-### Init submodule repository
-```sh
-git submodule update --init --recursive
-```
 
-### Run the simulation
-Add non-network local connections to access control list:
-```sh
-xhost local:docker
-```
-
-You can set the robot type by specifying the robot name:
-
-```sh
-export ROBOT_NAME=rosbot # this is the default option
-```
-
-Navigate to the docker directory and start the simulation:
-```sh
-docker compose up
-```
-Note: The initial setup may take some time as required assets are downloaded.
+## Simulation (Docker)
+1. Clone this repository:
+    ```sh
+    git@github.com:CleverHiveSpace/mcs-ros2.git
+    ```
+2. Initialize the submodules:
+    ```sh
+    git submodule update --init --recursive
+    ```
+3. Add non-network local connections to access control list:
+    ```sh
+    xhost local:docker
+    ```
+4. Set the robot type by specifying the robot name:
+    ```sh
+    export ROBOT_NAME=rosbot
+    ```
+5. Navigate to the docker directory
+   ```
+   cd docker
+   ```
+6. Start the simulation:
+    ```sh
+    docker compose up
+    ```
+    > [!NOTE]  
+    > The initial setup may take some time as required assets are downloaded.
 
 ### Connect to the simulation
 
@@ -41,17 +49,38 @@ Next, you can use the teleop_twist tool to control the ROSbot via your keyboard.
 ```sh
 docker exec -it rviz bash
 ```
-You can also launch rviz locally:
-```sh
-ros2 run rviz2 rviz2
-```
 
 If you have ROS2 installed locally, you can operate the ROSbot either from your local setup or within the Rviz container by running:
 ```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
-## Building the Workspace
+### Access the workspace
+1. Enter the webots container:
+    ```sh
+    docker exec -it webots bash
+    ```
+2. Navigate to the workspace:
+    ```sh
+    cd /ros2_ws
+    ```
+
+> [!TIP]  
+> The workspace is mounted as a volume from the host machine, so any changes made to the files within the container will be reflected on the host machine.
+
+> [!TIP]  
+> Don't forget to `colcon build` and `source install/setup.bash` after any changes to the files within the container.
+
+### Customize simulation files
+The original simulation can be modified by editing the `src/mcs_webots_ros2` files. This is a submodule forked from Husarion Webots / ROS 2 driver (which is a fork of the original Webots / ROS 2 driver).
+
+### Customize Docker image
+The original Docker image used in the simulation is `husarion/webots-docker`. A partially fixed fork of the original repository is [CleverHiveSpace/mcs_webots_ros2_docker](https://github.com/CleverHiveSpace/mcs_webots_ros2_docker).
+
+> [!WARNING]  
+> The Husarion's image cannot be built as of Jan 2025 due to Webots version incompatibility and who the fuck knows what else. This project uses legacy image from 2023 which works stable with Webots nightly version `webots-R2024a-x86-64` which is currently NOT available in the official repositories.
+
+## MCS Edge Node (local)
 
 If you don't have colcon installed, run:
 ```sh
