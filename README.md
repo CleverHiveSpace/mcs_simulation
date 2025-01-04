@@ -33,8 +33,9 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
     ```sh
     docker compose up
     ```
-    > [!NOTE]  
-    > The initial setup may take some time as required assets are downloaded.
+    
+> [!NOTE]  
+> The initial setup may take some time as required assets are downloaded.
 
 ![RViz window](./docs/images/webots.jpg)
 
