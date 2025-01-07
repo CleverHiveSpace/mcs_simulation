@@ -11,7 +11,13 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    install_requires=['setuptools', 'python3-socketio'],
+    install_requires=[
+        'aiortc',
+        'numpy',
+        'opencv-python',
+        'python3-socketio',
+        'setuptools',
+    ],
     zip_safe=True,
     maintainer='adrians',
     maintainer_email='adrianstahl.2@icloud.com',
@@ -21,6 +27,7 @@ setup(
     entry_points={
         'console_scripts': [
             'webots_node = mcs_ros2.webots_listener:main',
+            'camera_listener = mcs_ros2.camera_listener:main',
         ],
     },
 )
