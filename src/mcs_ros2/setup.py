@@ -12,10 +12,11 @@ setup(
         ('share/' + package_name, ['package.xml']),
     ],
     install_requires=[
-        'aiortc',
+        # 'aiortc',
         'numpy',
         'opencv-python',
         'python3-socketio',
+        'python3-websocket',
         'setuptools',
     ],
     zip_safe=True,
