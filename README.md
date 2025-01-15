@@ -121,7 +121,12 @@ or if you're using zsh:
 source install/setup.zsh
 ```
 
-To run the ros2 package which listens to the webots simulation run:
+To run the ros2 node which listens to the telemetry run:
 ```sh
-ros2 run mcs_ros2 webots_node
+ros2 run mcs_ros2 telemetry_listener
+```
+
+To run the ros2 node which listens to the camera run:
+```sh
+ros2 run mcs_ros2 camera_listener
 ```
