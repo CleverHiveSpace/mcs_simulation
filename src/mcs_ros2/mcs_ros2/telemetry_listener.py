@@ -1,10 +1,10 @@
 import math
-from threading import current_thread
 import rclpy
 import socketio
 from rclpy.node import Node
 from sensor_msgs.msg import Imu, JointState, PointCloud2
 from message_filters import Subscriber, ApproximateTimeSynchronizer
+from rosidl_runtime_py import message_to_ordereddict
 
 class TelemetrySubscriber(Node):
 
@@ -25,33 +25,9 @@ class TelemetrySubscriber(Node):
         self.ts.registerCallback(self.synced_callback)
 
     def synced_callback(self, imu_msg, pcl_msg, joint_msg):
-        imu_data = {
-            'timestamp': f"{imu_msg.header.stamp.sec}.{imu_msg.header.stamp.nanosec}",
-            'orientation': {
-                'x': imu_msg.orientation.x,
-                'y': imu_msg.orientation.y,
-                'z': imu_msg.orientation.z,
-                'w': imu_msg.orientation.w
-            },
-            'angular_velocity': {
-                'x': imu_msg.angular_velocity.x,
-                'y': imu_msg.angular_velocity.y,
-                'z': imu_msg.angular_velocity.z
-            },
-            'linear_acceleration': {
-                'x': imu_msg.linear_acceleration.x,
-                'y': imu_msg.linear_acceleration.y,
-                'z': imu_msg.linear_acceleration.z
-            }
-        }
 
-        pcl_data = {
-            'timestamp': f"{pcl_msg.header.stamp.sec}.{pcl_msg.header.stamp.nanosec}",
-            'frame_id': pcl_msg.header.frame_id,
-            'width': pcl_msg.width,
-            'height': pcl_msg.height,
-            'point_count': pcl_msg.width * pcl_msg.height
-        }
+        imu_data = message_to_ordereddict(imu_msg)
+        pcl_data  = message_to_ordereddict(pcl_msg)
 
         joint_data = {
             'timestamp': f"{joint_msg.header.stamp.sec}.{joint_msg.header.stamp.nanosec}",

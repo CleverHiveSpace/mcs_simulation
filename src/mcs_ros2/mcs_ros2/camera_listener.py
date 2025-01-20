@@ -15,8 +15,11 @@ class CameraSubscriber(Node):
         self.sio.on('connect', self.on_connect)
         self.sio.on('connect_error', self.on_connect_error)
         self.sio.on('disconnect', self.on_disconnect)
-
-        self.sio.connect('https://localhost:1234')
+        try:
+            self.sio.connect('https://localhost:1234')
+            self.get_logger().info("Connected to socket.io server.")
+        except Exception as e:
+            self.get_logger().error(f"Failed to connect to socket.io server: {e}")
 
         self.bridge = CvBridge()
         self.subscription = self.create_subscription(
