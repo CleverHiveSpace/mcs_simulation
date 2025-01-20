@@ -99,7 +99,7 @@ sudo apt install python3-colcon-common-extensions
 ```
 If you don't have rosdep installed, run:
 ```sh
-apt-get install python3-rosdep
+sudo apt install python3-rosdep
 ```
 
 All following commands must be used from the root of workspace (mcs-ros2)
