@@ -10,7 +10,6 @@ x-net-config: &net-config
 x-gpu-config: &gpu-config
   runtime: nvidia
   environment:
-    - DISPLAY=:10
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
 
@@ -30,7 +29,6 @@ services:
       - VNC_USER=${VNC_USER:-root}
       - VNC_PASSWORD=${VNC_PASSWORD:-rosbot}
       - VNC_DISPLAY=:10
-      - DISPLAY=:10
     # command: tail -f /dev/null
     command: bash /mcs_ws/src/run.sh
     # command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive ${ROBOT_NAME:-rosbot}_launch.py use_headless:=true'
