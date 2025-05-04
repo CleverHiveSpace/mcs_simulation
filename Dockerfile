@@ -25,7 +25,7 @@ COPY ./src /mcs_ws/src
 COPY ./config/xorg.conf /etc/X11/xorg.conf
 
 # Set environment variables
-ENV DISPLAY=:0
+ENV DISPLAY=:99
 ENV XAUTHORITY=/root/.Xauthority
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=all
@@ -38,11 +38,12 @@ RUN source /opt/ros/humble/setup.bash && \
 
 # Default command
 CMD bash -c "\
-    Xorg :0 -config /etc/X11/xorg.conf & \
+    Xorg :99 -config /etc/X11/xorg.conf & \
     sleep 2 && \
-    export DISPLAY=:0 && \
+    export DISPLAY=:99 && \
     export XAUTHORITY=/root/.Xauthority && \
-    vglrun glxinfo | grep -i 'OpenGL renderer' && \
+    echo 'DISPLAY is: $DISPLAY' && \
+    vglrun -d :99 glxinfo | grep -i 'OpenGL renderer' && \
     source /opt/ros/humble/setup.bash && \
     source ./install/setup.bash && \
-    vglrun ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=true"
+    vglrun -d :99 ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=true"

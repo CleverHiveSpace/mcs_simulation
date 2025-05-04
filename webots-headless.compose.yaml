@@ -6,7 +6,7 @@ x-net-config: &net-config
 x-gpu-config: &gpu-config
   runtime: nvidia
   environment:
-    - DISPLAY=:0
+    - DISPLAY=:99
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
 
