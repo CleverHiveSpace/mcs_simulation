@@ -2,29 +2,20 @@
 
 Edge software for integrating ROS 2 / Webots simulation with MCS.
 
+<img src="./docs/images/moon1.jpg" width="300">
+
+<img src="./docs/images/moon3.jpg" width="300">
+
+<img src="./docs/images/moon0.jpg" width="300">
+
 ## Prerequisites
 - NVIDIA GPU
 - Ubuntu (22.04 / 24.04) on the AMD64 platform
-- Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 - Docker & Docker compose
 - Git
+- (local installation) Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 
-## Simulation headless (NVIDIA)
-1. Clone this repository:
-    ```sh
-    git@github.com:CleverHiveSpace/mcs-ros2.git
-    ```
-2. Initialize the submodules:
-    ```sh
-    git submodule update --init --recursive
-    ```
-3. Start the simulation:
-    ```sh
-    docker compose -f webots-headless.compose.yaml up
-    ```
-
-
-## Simulation locally (GUI & Docker)
+## Simulation locally with X11
 1. Clone this repository:
     ```sh
     git@github.com:CleverHiveSpace/mcs-ros2.git
@@ -45,9 +36,9 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
 > [!NOTE]  
 > The initial setup may take some time as required assets are downloaded.
 
-### RViz
-
 ![RViz window](./docs/images/webots.jpg)
+
+### RViz
 
 To visualize the ROSbot's sensor data, you can run RViz2 within Docker:
 
@@ -94,6 +85,21 @@ The original simulation can be modified by editing the `src/mcs_webots_ros2` fil
 
 ### Customize Docker image
 The original Docker image used in the simulation is `husarion/webots-docker`. A partially fixed fork of the original repository is [CleverHiveSpace/mcs_webots_ros2_docker](https://github.com/CleverHiveSpace/mcs_webots_ros2_docker).
+
+## Simulation headless with NVIDIA GPU
+1. Clone this repository:
+    ```sh
+    git@github.com:CleverHiveSpace/mcs-ros2.git
+    ```
+2. Initialize the submodules:
+    ```sh
+    git submodule update --init --recursive
+    ```
+3. Start the simulation:
+    ```sh
+    docker compose -f webots-headless.compose.yaml up
+    ```
+
 
 ## Husarion Docker image
 
