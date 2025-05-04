@@ -10,14 +10,14 @@ x-net-config: &net-config
 x-gpu-config: &gpu-config
   runtime: nvidia
   environment:
-    - DISPLAY=:10
+    - DISPLAY=:0
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
 
 services:
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
-  webots:
+  webots-headless:
     image: husarion/webots:humble
     <<: [ *net-config, *gpu-config ]
     volumes:
@@ -29,8 +29,8 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - VNC_USER=${VNC_USER:-root}
       - VNC_PASSWORD=${VNC_PASSWORD:-rosbot}
-      - VNC_DISPLAY=:10
-      - DISPLAY=:10
-    # command: tail -f /dev/null
-    command: bash /mcs_ws/src/run.sh
+      - VNC_DISPLAY=:0
+      - DISPLAY=:0
+    command: tail -f /dev/null
+    # command: bash /mcs_ws/src/run.sh
     # command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive ${ROBOT_NAME:-rosbot}_launch.py use_headless:=true'
