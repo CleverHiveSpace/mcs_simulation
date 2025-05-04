@@ -31,6 +31,4 @@ services:
       - VNC_PASSWORD=${VNC_PASSWORD:-rosbot}
       - VNC_DISPLAY=:0
       - DISPLAY=:0
-    command: tail -f /dev/null
-    # command: bash /mcs_ws/src/run.sh
-    # command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive ${ROBOT_NAME:-rosbot}_launch.py use_headless:=true'
+    command: bash /mcs_ws/src/run.sh

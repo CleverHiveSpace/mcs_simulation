@@ -3,12 +3,28 @@
 Edge software for integrating ROS 2 / Webots simulation with MCS.
 
 ## Prerequisites
+- NVIDIA GPU
 - Ubuntu (22.04 / 24.04) on the AMD64 platform
 - Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 - Docker & Docker compose
 - Git
 
-## Simulation (GUI & Docker)
+## Simulation headless (NVIDIA)
+1. Clone this repository:
+    ```sh
+    git@github.com:CleverHiveSpace/mcs-ros2.git
+    ```
+2. Initialize the submodules:
+    ```sh
+    git submodule update --init --recursive
+    ```
+3. Start the simulation:
+    ```sh
+    docker compose -f webots-headless.compose.yaml up
+    ```
+
+
+## Simulation locally (GUI & Docker)
 1. Clone this repository:
     ```sh
     git@github.com:CleverHiveSpace/mcs-ros2.git
@@ -21,31 +37,22 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
     ```sh
     xhost local:docker
     ```
-4. Set the robot type by specifying the robot name:
+4. Start the simulation:
     ```sh
-    export ROBOT_NAME=rosbot
-    ```
-5. Navigate to the docker directory
-   ```
-   cd docker
-   ```
-6. Start the simulation:
-    ```sh
-    docker compose up
+    docker compose -f webots-local.compose.yaml up
     ```
     
 > [!NOTE]  
 > The initial setup may take some time as required assets are downloaded.
 
-![RViz window](./docs/images/webots.jpg)
-
-
 ### RViz
+
+![RViz window](./docs/images/webots.jpg)
 
 To visualize the ROSbot's sensor data, you can run RViz2 within Docker:
 
 ```sh
-docker compose -f compose.rviz.yaml up
+docker compose -f rviz.compose.yaml up
 ```
 
 ![RViz window](./docs/images/rviz.jpg)
