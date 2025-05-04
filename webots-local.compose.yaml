@@ -1,7 +1,3 @@
-# Quick Start
-# $ xhost local:root
-# $ docker compose up
-
 x-net-config: &net-config
   network_mode: host
   ipc: host
@@ -22,11 +18,11 @@ x-cpu-config: &cpu-config
 services:
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
-  webots:
+  webots-local:
     image: husarion/webots:humble
     <<: [ *net-config, *gpu-config ]
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri
-      - ../src:/mcs_ws/src
-    command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive ${ROBOT_NAME:-rosbot}_launch.py'
+      - ./src:/mcs_ws/src
+    command: bash -c 'cd /mcs_ws && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=false'

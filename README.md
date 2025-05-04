@@ -2,13 +2,20 @@
 
 Edge software for integrating ROS 2 / Webots simulation with MCS.
 
+<img src="./docs/images/moon1.jpg" width="300">
+
+<img src="./docs/images/moon3.jpg" width="300">
+
+<img src="./docs/images/moon0.jpg" width="300">
+
 ## Prerequisites
+- NVIDIA GPU
 - Ubuntu (22.04 / 24.04) on the AMD64 platform
-- Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 - Docker & Docker compose
 - Git
+- (local installation) Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 
-## Simulation (Docker)
+## Simulation locally with X11
 1. Clone this repository:
     ```sh
     git@github.com:CleverHiveSpace/mcs-ros2.git
@@ -21,17 +28,9 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
     ```sh
     xhost local:docker
     ```
-4. Set the robot type by specifying the robot name:
+4. Start the simulation:
     ```sh
-    export ROBOT_NAME=rosbot
-    ```
-5. Navigate to the docker directory
-   ```
-   cd docker
-   ```
-6. Start the simulation:
-    ```sh
-    docker compose up
+    docker compose -f webots-local.compose.yaml up
     ```
     
 > [!NOTE]  
@@ -39,13 +38,12 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
 
 ![RViz window](./docs/images/webots.jpg)
 
-
 ### RViz
 
 To visualize the ROSbot's sensor data, you can run RViz2 within Docker:
 
 ```sh
-docker compose -f compose.rviz.yaml up
+docker compose -f rviz.compose.yaml up
 ```
 
 ![RViz window](./docs/images/rviz.jpg)
@@ -83,13 +81,40 @@ OR
 > Don't forget to `colcon build` and `source install/setup.bash` after any changes to the files within the container.
 
 ### Customize simulation files
-The original simulation can be modified by editing the `src/mcs_webots_ros2` files. This is a submodule forked from Husarion Webots / ROS 2 driver (which is a fork of the original Webots / ROS 2 driver).
+The original simulation can be modified by editing the `src/mcs_webots_ros2` files, probably you want to modify `webots_ros2_cleverhive` package which is based on `webots_ros2_husarion`. This is a submodule forked from Husarion Webots / ROS 2 driver (which is a fork of the original Webots / ROS 2 driver). 
 
 ### Customize Docker image
 The original Docker image used in the simulation is `husarion/webots-docker`. A partially fixed fork of the original repository is [CleverHiveSpace/mcs_webots_ros2_docker](https://github.com/CleverHiveSpace/mcs_webots_ros2_docker).
 
-> [!WARNING]  
+## Simulation headless with NVIDIA GPU
+1. Clone this repository:
+    ```sh
+    git@github.com:CleverHiveSpace/mcs-ros2.git
+    ```
+2. Initialize the submodules:
+    ```sh
+    git submodule update --init --recursive
+    ```
+3. Start the simulation:
+    ```sh
+    docker compose -f webots-headless.compose.yaml up
+    ```
+
+
+## Husarion Docker image
+
+> [!NOTE]  
 > The Husarion's image cannot be built as of Jan 2025 due to Webots version incompatibility and who the fuck knows what else. This project uses legacy image from 2023 which works stable with Webots nightly version `webots-R2024a-x86-64` which is currently NOT available in the official repositories.
+
+> [!NOTE]  
+> Husarion image can be build with webots version R2023 but there are some tf issues with the robot. Have a look at the [mcs_webots_ros2_docker](https://github.com/CleverHiveSpace/mcs_webots_ros2_docker) for more details.
+
+> [!NOTE]  
+> In case Husarion removed the image from the repositories, here is the backup image with webots nightly R2024: TBD
+
+> [!NOTE]
+> In case you want to install webots nightly version manually, here are the installers: 
+> [R2024a Nightly Build 8/8/2023 d9de48d3bb9d9a31b101e1f198912df810a65a46](https://github.com/CleverHiveSpace/webots-R2024a-x86-64)
 
 ## MCS Edge Node (local)
 
