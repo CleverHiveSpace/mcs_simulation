@@ -14,5 +14,3 @@ services:
   webots-headless:
     build: .
     <<: [ *net-config, *gpu-config ]
-    volumes:
-      - /dev/dri:/dev/dri
