@@ -23,6 +23,7 @@ RUN wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_
 # Copy your project source and Xorg config
 COPY ./src /mcs_ws/src
 COPY ./config/xorg.conf /etc/X11/xorg.conf
+COPY ./entrypoint.sh /mcs_ws/entrypoint.sh
 
 # Set environment variables
 ENV DISPLAY=:99
@@ -32,18 +33,12 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 
 WORKDIR /mcs_ws
 
+# Make entrypoint script executable
+RUN chmod +x /mcs_ws/entrypoint.sh
+
 # Build the project
 RUN source /opt/ros/humble/setup.bash && \
     colcon build
 
-# Default command
-CMD bash -c "\
-    Xorg :99 -config /etc/X11/xorg.conf & \
-    sleep 2 && \
-    export DISPLAY=:99 && \
-    export XAUTHORITY=/root/.Xauthority && \
-    echo 'DISPLAY is: $DISPLAY' && \
-    vglrun -d :99 glxinfo | grep -i 'OpenGL renderer' && \
-    source /opt/ros/humble/setup.bash && \
-    source ./install/setup.bash && \
-    vglrun -d :99 ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=true"
+# Use the entrypoint script
+CMD ["/mcs_ws/entrypoint.sh"]
