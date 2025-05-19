@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Bootstrap the Transitive agent
+if [ ! -e "$HOME/.transitive/.installation_complete" ]; then
+  mkdir -p "$HOME/.transitive"
+  cp -r /transitive-preinstalled/. "$HOME/.transitive"
+  rm -rf /transitive-preinstalled
+fi
+
+bash $HOME/.transitive/start_agent.sh &
 # Sanity check DISPLAY environment variable
 echo ============= DISPLAY INFO =============
 echo Display is: $DISPLAY

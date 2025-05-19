@@ -1,6 +1,8 @@
 __pycache__
 .DS_Store
 .env
+.transitive_id
+.transitive_token
 # Visual Studio Code configuration
 /.vscode
 /.cache

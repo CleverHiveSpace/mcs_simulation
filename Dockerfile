@@ -4,7 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt update && apt install -y \
+    build-essential \
     curl \
+    git \
+    gnupg \
     gnupg2 \
     lsb-release \
     wget \
@@ -39,6 +42,19 @@ RUN chmod +x /mcs_ws/entrypoint.sh
 # Build the project
 RUN source /opt/ros/humble/setup.bash && \
     colcon build
+
+# Install transitiverobotics
+RUN --mount=type=secret,id=transitive_id \
+    --mount=type=secret,id=transitive_token \
+    bash -c '\
+      ID=$(cat /run/secrets/transitive_id) && \
+      TOKEN=$(cat /run/secrets/transitive_token) && \
+      curl -sf "https://install.transitiverobotics.com?\
+id=${ID}&token=${TOKEN}&docker=true" | bash '
+
+#RUN curl -sf "https://install.transitiverobotics.com?\
+#id=${TRANSITIVE_ID}\
+#&token=${TRANSITIVE_TOKEN}&docker=true" | bash
 
 # Use the entrypoint script
 CMD ["/mcs_ws/entrypoint.sh"]
