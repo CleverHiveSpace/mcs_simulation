@@ -10,21 +10,12 @@ x-gpu-config: &gpu-config
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
 
-secrets:
-  transitive_id:
-    file: ./.transitive_id
-  transitive_token:
-    file: ./.transitive_token
-
 services:
   webots-headless:
     privileged: true
-    
-    build: 
+    build:
       context: .
-      secrets:
-        - source: transitive_id
-          target: transitive_id
-        - source: transitive_token
-          target: transitive_token
+    environment: # NOTE: .env file should be present in the root directory
+      - TRANSITIVE_ID=${TRANSITIVE_ID}
+      - TRANSITIVE_TOKEN=${TRANSITIVE_TOKEN}
     <<: [ *net-config, *gpu-config ]

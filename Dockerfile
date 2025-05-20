@@ -26,7 +26,6 @@ RUN wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_
 # Copy your project source and Xorg config
 COPY ./src /mcs_ws/src
 COPY ./config/xorg.conf /etc/X11/xorg.conf
-COPY ./entrypoint.sh /mcs_ws/entrypoint.sh
 
 # Set environment variables
 ENV DISPLAY=:99
@@ -36,25 +35,15 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 
 WORKDIR /mcs_ws
 
-# Make entrypoint script executable
-RUN chmod +x /mcs_ws/entrypoint.sh
-
 # Build the project
 RUN source /opt/ros/humble/setup.bash && \
     colcon build
 
-# Install transitiverobotics
-RUN --mount=type=secret,id=transitive_id \
-    --mount=type=secret,id=transitive_token \
-    bash -c '\
-      ID=$(cat /run/secrets/transitive_id) && \
-      TOKEN=$(cat /run/secrets/transitive_token) && \
-      curl -sf "https://install.transitiverobotics.com?\
-id=${ID}&token=${TOKEN}&docker=true" | bash '
+# Copy the entrypoint script
+COPY ./entrypoint.sh /mcs_ws/entrypoint.sh
 
-#RUN curl -sf "https://install.transitiverobotics.com?\
-#id=${TRANSITIVE_ID}\
-#&token=${TRANSITIVE_TOKEN}&docker=true" | bash
+# Make entrypoint script executable
+RUN chmod +x /mcs_ws/entrypoint.sh
 
 # Use the entrypoint script
 CMD ["/mcs_ws/entrypoint.sh"]
