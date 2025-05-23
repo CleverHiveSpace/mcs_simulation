@@ -12,5 +12,10 @@ x-gpu-config: &gpu-config
 
 services:
   webots-headless:
-    build: .
+    privileged: true
+    build:
+      context: .
+    environment: # NOTE: .env file should be present in the root directory
+      - TRANSITIVE_ID=${TRANSITIVE_ID}
+      - TRANSITIVE_TOKEN=${TRANSITIVE_TOKEN}
     <<: [ *net-config, *gpu-config ]

@@ -4,7 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt update && apt install -y \
+    build-essential \
     curl \
+    git \
+    gnupg \
     gnupg2 \
     lsb-release \
     wget \
@@ -23,7 +26,6 @@ RUN wget https://sourceforge.net/projects/virtualgl/files/2.6.5/virtualgl_2.6.5_
 # Copy your project source and Xorg config
 COPY ./src /mcs_ws/src
 COPY ./config/xorg.conf /etc/X11/xorg.conf
-COPY ./entrypoint.sh /mcs_ws/entrypoint.sh
 
 # Set environment variables
 ENV DISPLAY=:99
@@ -33,12 +35,15 @@ ENV NVIDIA_DRIVER_CAPABILITIES=all
 
 WORKDIR /mcs_ws
 
-# Make entrypoint script executable
-RUN chmod +x /mcs_ws/entrypoint.sh
-
 # Build the project
 RUN source /opt/ros/humble/setup.bash && \
     colcon build
+
+# Copy the entrypoint script
+COPY ./entrypoint.sh /mcs_ws/entrypoint.sh
+
+# Make entrypoint script executable
+RUN chmod +x /mcs_ws/entrypoint.sh
 
 # Use the entrypoint script
 CMD ["/mcs_ws/entrypoint.sh"]
