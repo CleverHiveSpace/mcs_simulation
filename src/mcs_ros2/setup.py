@@ -28,7 +28,7 @@ setup(
     entry_points={
         'console_scripts': [
             'telemetry_listener = mcs_ros2.telemetry_listener:main',
-            'camera_listener = mcs_ros2.camera_listener:main',
+            'camera_listener = mcs_ros2.camera_listener_v2:main',
         ],
     },
 )
