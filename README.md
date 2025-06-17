@@ -155,3 +155,24 @@ To run the ros2 node which listens to the camera run:
 ```sh
 ros2 run mcs_ros2 camera_listener
 ```
+
+### Video server (virtual env + FastAPI dev server)
+
+1. **Create and activate a virtual environment**
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate          # Windows: .venv\Scripts\activate
+   ```
+
+2. **Install dependencies**
+
+```sh
+pip install -r requirements.txt
+```
+
+3. **Run the FastAPI development server**
+
+```sh
+fastapi dev server.py
+```
