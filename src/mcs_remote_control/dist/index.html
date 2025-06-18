@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MCS Robot Remote Control</title>
+    <script type="module" crossorigin src="/assets/index-BfBRNShZ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-tMYm4p45.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <h1>🤖 MCS Robot Control Panel</h1>
+          <div class="header-controls">
+            <div class="connection-status" id="connectionStatus">
+              <span class="status-indicator" id="statusIndicator"></span>
+              <span class="status-text" id="statusText">Connecting...</span>
+            </div>
+            <button class="logout-btn" id="logoutBtn" title="Logout">
+              <span class="logout-icon">🚪</span>
+              <span class="logout-text">Logout</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="control-panel">
+          <div class="control-grid" id="controls">
+            <div class="control-cell"></div>
+            <button
+              class="control-btn forward"
+              id="forwardBtn"
+              data-action="forward"
+            >
+              <span class="btn-icon">↑</span>
+              <span class="btn-label">Forward</span>
+            </button>
+            <div class="control-cell"></div>
+
+            <button class="control-btn left" id="leftBtn" data-action="left">
+              <span class="btn-icon">←</span>
+              <span class="btn-label">Left</span>
+            </button>
+            <button class="control-btn stop" id="stopBtn" data-action="stop">
+              <span class="btn-icon">⏹</span>
+              <span class="btn-label">Stop</span>
+            </button>
+            <button class="control-btn right" id="rightBtn" data-action="right">
+              <span class="btn-icon">→</span>
+              <span class="btn-label">Right</span>
+            </button>
+
+            <div class="control-cell"></div>
+            <button
+              class="control-btn backward"
+              id="backwardBtn"
+              data-action="backward"
+            >
+              <span class="btn-icon">↓</span>
+              <span class="btn-label">Backward</span>
+            </button>
+            <div class="control-cell"></div>
+          </div>
+
+          <div class="speed-control">
+            <label for="speedSlider"
+              >Speed: <span id="speedValue">50%</span></label
+            >
+            <input
+              type="range"
+              id="speedSlider"
+              min="10"
+              max="100"
+              value="50"
+              class="speed-slider"
+            />
+          </div>
+        </div>
+
+        <div class="info-panel">
+          <h3>Connection Info</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">WebSocket URL:</span>
+              <span class="info-value" id="wsUrl">ws://localhost:9090</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Topic:</span>
+              <span class="info-value">/cmd_vel</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Message Type:</span>
+              <span class="info-value">geometry_msgs/Twist</span>
+            </div>
+          </div>
+
+          <div class="session-info">
+            <h4>Session Info</h4>
+            <div class="info-item">
+              <span class="info-label">Status:</span>
+              <span class="info-value" id="sessionStatus">Authenticated</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Expires:</span>
+              <span class="info-value" id="sessionExpires">24 hours</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
