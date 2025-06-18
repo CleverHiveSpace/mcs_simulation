@@ -1,6 +1,7 @@
 import ROSLIB from "roslib";
 import EventEmitter2 from "eventemitter2";
 import CONFIG from "./config.js";
+import { auth } from "./auth.js";
 
 class RobotController {
   constructor() {
@@ -10,13 +11,28 @@ class RobotController {
     this.speedMultiplier = CONFIG.CONTROLS.DEFAULT_SPEED;
     this.eventEmitter = new EventEmitter2();
 
+    // Check authentication first
+    if (!this.checkAuthentication()) {
+      return;
+    }
+
     this.init();
+  }
+
+  checkAuthentication() {
+    if (!auth.isLoggedIn()) {
+      // Redirect to login page if not authenticated
+      window.location.href = CONFIG.AUTH.LOGIN_PAGE;
+      return false;
+    }
+    return true;
   }
 
   init() {
     this.setupUI();
     this.setupEventListeners();
     this.connectToROS();
+    this.updateSessionInfo();
   }
 
   setupUI() {
@@ -28,6 +44,9 @@ class RobotController {
       speedValue: document.getElementById("speedValue"),
       controlButtons: document.querySelectorAll(".control-btn"),
       wsUrl: document.getElementById("wsUrl"),
+      logoutBtn: document.getElementById("logoutBtn"),
+      sessionStatus: document.getElementById("sessionStatus"),
+      sessionExpires: document.getElementById("sessionExpires"),
     };
 
     // Set initial speed display
@@ -63,6 +82,13 @@ class RobotController {
       });
     });
 
+    // Logout button
+    if (this.elements.logoutBtn) {
+      this.elements.logoutBtn.addEventListener("click", () => {
+        this.handleLogout();
+      });
+    }
+
     // Keyboard controls
     document.addEventListener("keydown", (e) => {
       this.handleKeyboardInput(e);
@@ -71,6 +97,47 @@ class RobotController {
     document.addEventListener("keyup", (e) => {
       this.handleKeyboardRelease(e);
     });
+
+    // Check authentication periodically
+    setInterval(() => {
+      if (!auth.isLoggedIn()) {
+        this.handleLogout();
+      }
+    }, CONFIG.AUTH.AUTH_CHECK_INTERVAL);
+  }
+
+  handleLogout() {
+    // Stop any ongoing robot movement
+    this.publishCmdVel(0, 0);
+
+    // Logout from auth system
+    auth.logout();
+
+    // Redirect to login page
+    window.location.href = CONFIG.AUTH.LOGIN_PAGE;
+  }
+
+  updateSessionInfo() {
+    const sessionInfo = auth.getSessionInfo();
+    if (
+      sessionInfo &&
+      this.elements.sessionStatus &&
+      this.elements.sessionExpires
+    ) {
+      this.elements.sessionStatus.textContent = "Authenticated";
+
+      // Calculate time until expiration
+      const now = Date.now();
+      const expiresIn = sessionInfo.expires - now;
+      const hours = Math.floor(expiresIn / (1000 * 60 * 60));
+      const minutes = Math.floor((expiresIn % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (hours > 0) {
+        this.elements.sessionExpires.textContent = `${hours}h ${minutes}m`;
+      } else {
+        this.elements.sessionExpires.textContent = `${minutes}m`;
+      }
+    }
   }
 
   connectToROS() {

@@ -20,15 +20,28 @@ body {
 
 /* Header styles */
 header {
-  text-align: center;
   margin-bottom: 40px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 h1 {
   color: white;
   font-size: 2.5rem;
-  margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .connection-status {
@@ -75,6 +88,40 @@ h1 {
 .status-text {
   color: white;
   font-weight: 500;
+}
+
+/* Logout button */
+.logout-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+.logout-icon {
+  font-size: 16px;
+}
+
+.logout-text {
+  display: inline;
 }
 
 /* Main content */
@@ -233,6 +280,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 25px;
 }
 
 .info-item {
@@ -256,8 +304,38 @@ main {
   font-size: 0.9rem;
 }
 
+/* Session info */
+.session-info {
+  border-top: 1px solid #e1e5e9;
+  padding-top: 20px;
+}
+
+.session-info h4 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1rem;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .header-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logout-text {
+    display: none;
+  }
+
   main {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -265,10 +343,6 @@ main {
 
   .container {
     padding: 15px;
-  }
-
-  h1 {
-    font-size: 2rem;
   }
 
   .control-btn {

@@ -34,6 +34,15 @@ export const CONFIG = {
     STOP: [" "], // spacebar
   },
 
+  // Authentication settings
+  AUTH: {
+    DEFAULT_PASSWORD: "robot2024", // Change this in production!
+    SESSION_DURATION: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+    AUTH_CHECK_INTERVAL: 30000, // Check auth every 30 seconds
+    LOGIN_PAGE: "./login.html",
+    MAIN_PAGE: "./index.html",
+  },
+
   // Development settings
   DEV: {
     DEBUG_MODE: true,

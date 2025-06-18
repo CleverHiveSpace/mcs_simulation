@@ -9,10 +9,18 @@
   <body>
     <div class="container">
       <header>
-        <h1>🤖 MCS Robot Control Panel</h1>
-        <div class="connection-status" id="connectionStatus">
-          <span class="status-indicator" id="statusIndicator"></span>
-          <span class="status-text" id="statusText">Connecting...</span>
+        <div class="header-content">
+          <h1>🤖 MCS Robot Control Panel</h1>
+          <div class="header-controls">
+            <div class="connection-status" id="connectionStatus">
+              <span class="status-indicator" id="statusIndicator"></span>
+              <span class="status-text" id="statusText">Connecting...</span>
+            </div>
+            <button class="logout-btn" id="logoutBtn" title="Logout">
+              <span class="logout-icon">🚪</span>
+              <span class="logout-text">Logout</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -84,6 +92,18 @@
             <div class="info-item">
               <span class="info-label">Message Type:</span>
               <span class="info-value">geometry_msgs/Twist</span>
+            </div>
+          </div>
+
+          <div class="session-info">
+            <h4>Session Info</h4>
+            <div class="info-item">
+              <span class="info-label">Status:</span>
+              <span class="info-value" id="sessionStatus">Authenticated</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Expires:</span>
+              <span class="info-value" id="sessionExpires">24 hours</span>
             </div>
           </div>
         </div>
