@@ -19,4 +19,5 @@ services:
     environment: # NOTE: .env file should be present in the root directory
       - TRANSITIVE_ID=${TRANSITIVE_ID}
       - TRANSITIVE_TOKEN=${TRANSITIVE_TOKEN}
+      - TR_DISPLAYNAME=${TR_DISPLAYNAME}
     <<: [ *net-config, *gpu-config ]

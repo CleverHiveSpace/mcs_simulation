@@ -4,7 +4,7 @@
 export const CONFIG = {
   // ROS2 WebSocket connection
   ROS: {
-    WEBSOCKET_URL: "ws://localhost:9090",
+    WEBSOCKET_URL: "ws://0.0.0.0:9090",
     RECONNECT_INTERVAL: 5000, // milliseconds
     TOPIC_NAME: "/cmd_vel",
     MESSAGE_TYPE: "geometry_msgs/Twist",
