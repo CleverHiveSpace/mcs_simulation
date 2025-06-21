@@ -61,5 +61,10 @@ echo ========================================
 source /opt/ros/humble/setup.bash
 source /mcs_ws/install/setup.bash
 
+echo ============= STARTING ROSBRIDGE SERVER =============
+ros2 launch rosbridge_server rosbridge_websocket_launch.xml &
+cd /mcs_ws/src/mcs_remote_control
+npm run serve &
+
 echo ============= RUNNING WEBOTS =============
 vglrun -d :99 ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=true
