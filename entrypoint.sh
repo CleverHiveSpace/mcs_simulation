@@ -67,4 +67,4 @@ cd /mcs_ws/src/mcs_remote_control
 npm run serve &
 
 echo ============= RUNNING WEBOTS =============
-vglrun -d :99 ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=true
+vglrun -d :99 ros2 launch webots_ros2_cleverhive rosbot_launch.py gui:=false

@@ -25,4 +25,4 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri
       - ./src:/mcs_ws/src
-    command: bash -c 'cd /mcs_ws && source /opt/ros/humble/setup.bash && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive rosbot_launch.py use_headless:=false'
+    command: bash -c 'cd /mcs_ws && source /opt/ros/humble/setup.bash && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive rosbot_launch.py gui:=true'
