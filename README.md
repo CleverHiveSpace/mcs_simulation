@@ -1,6 +1,6 @@
-# mcs-ros2
+# mcs_simulation
 
-Edge software for integrating ROS 2 / Webots simulation with MCS.
+Webots / ROS 2 simulation for MCS.
 
 <img src="./docs/images/moon1.jpg" width="300">
 
@@ -9,6 +9,7 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
 <img src="./docs/images/moon0.jpg" width="300">
 
 ## Prerequisites
+
 - NVIDIA GPU
 - Ubuntu (22.04 / 24.04) on the AMD64 platform
 - Docker & Docker compose
@@ -16,23 +17,24 @@ Edge software for integrating ROS 2 / Webots simulation with MCS.
 - (local installation) Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 
 ## Simulation locally with X11
+
 1. Clone this repository:
-    ```sh
-    git@github.com:CleverHiveSpace/mcs-ros2.git
-    ```
+   ```sh
+   git@github.com:CleverHiveSpace/mcs-ros2.git
+   ```
 2. Initialize the submodules:
-    ```sh
-    git submodule update --init --recursive
-    ```
+   ```sh
+   git submodule update --init --recursive
+   ```
 3. Add non-network local connections to access control list:
-    ```sh
-    xhost local:docker
-    ```
+   ```sh
+   xhost local:docker
+   ```
 4. Start the simulation:
-    ```sh
-    docker compose -f webots-local.compose.yaml up
-    ```
-    
+   ```sh
+   docker compose -f webots-local.compose.yaml up
+   ```
+
 > [!NOTE]  
 > The initial setup may take some time as required assets are downloaded.
 
@@ -57,49 +59,54 @@ docker exec -it rviz bash
 ```
 
 If you have ROS2 installed locally, you can operate the ROSbot either from your local setup or within the Rviz container by running:
+
 ```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
 ### Access the workspace
+
 > [!TIP]  
 > The workspace is mounted as a volume from the host machine, so any changes made to the files within the container will be reflected on the host machine.
 
-Just go and modify `src/mcs_ros2`. 
+Just go and modify `src/mcs_ros2`.
 
 OR
+
 1. Enter the webots container:
-    ```sh
-    docker exec -it webots bash
-    ```
+   ```sh
+   docker exec -it webots bash
+   ```
 2. Navigate to the workspace:
-    ```sh
-    cd /ros2_ws
-    ```
+   ```sh
+   cd /ros2_ws
+   ```
 
 > [!TIP]  
 > Don't forget to `colcon build` and `source install/setup.bash` after any changes to the files within the container.
 
 ### Customize simulation files
-The original simulation can be modified by editing the `src/mcs_webots_ros2` files, probably you want to modify `webots_ros2_cleverhive` package which is based on `webots_ros2_husarion`. This is a submodule forked from Husarion Webots / ROS 2 driver (which is a fork of the original Webots / ROS 2 driver). 
+
+The original simulation can be modified by editing the `src/mcs_webots_ros2` files, probably you want to modify `webots_ros2_cleverhive` package which is based on `webots_ros2_husarion`. This is a submodule forked from Husarion Webots / ROS 2 driver (which is a fork of the original Webots / ROS 2 driver).
 
 ### Customize Docker image
+
 The original Docker image used in the simulation is `husarion/webots-docker`. A partially fixed fork of the original repository is [CleverHiveSpace/mcs_webots_ros2_docker](https://github.com/CleverHiveSpace/mcs_webots_ros2_docker).
 
 ## Simulation headless with NVIDIA GPU
-1. Clone this repository:
-    ```sh
-    git@github.com:CleverHiveSpace/mcs-ros2.git
-    ```
-2. Initialize the submodules:
-    ```sh
-    git submodule update --init --recursive
-    ```
-3. Start the simulation:
-    ```sh
-    docker compose -f webots-headless.compose.yaml up
-    ```
 
+1. Clone this repository:
+   ```sh
+   git@github.com:CleverHiveSpace/mcs-ros2.git
+   ```
+2. Initialize the submodules:
+   ```sh
+   git submodule update --init --recursive
+   ```
+3. Start the simulation:
+   ```sh
+   docker compose -f webots-headless.compose.yaml up
+   ```
 
 ## Husarion Docker image
 
@@ -113,16 +120,19 @@ The original Docker image used in the simulation is `husarion/webots-docker`. A 
 > In case Husarion removed the image from the repositories, here is the backup image with webots nightly R2024: TBD
 
 > [!NOTE]
-> In case you want to install webots nightly version manually, here are the installers: 
+> In case you want to install webots nightly version manually, here are the installers:
 > [R2024a Nightly Build 8/8/2023 d9de48d3bb9d9a31b101e1f198912df810a65a46](https://github.com/CleverHiveSpace/webots-R2024a-x86-64)
 
 ## MCS Edge Node (local)
 
 If you don't have colcon installed, run:
+
 ```sh
 sudo apt install python3-colcon-common-extensions
 ```
+
 If you don't have rosdep installed, run:
+
 ```sh
 sudo apt install python3-rosdep
 ```
@@ -130,28 +140,37 @@ sudo apt install python3-rosdep
 All following commands must be used from the root of workspace (mcs-ros2)
 
 Before building the project, resolve dependencies:
+
 ```sh
 rosdep install -i --from-path src --rosdistro jazzy -y # specify ros distro you have installed
 ```
+
 To build the project use command:
+
 ```sh
 colcon build --symlink-install
 ```
+
 Before you can use any of the installed executables or libraries, you will need to add them to your path and library paths. Use the command:
+
 ```sh
 source install/setup.bash
 ```
+
 or if you're using zsh:
+
 ```sh
 source install/setup.zsh
 ```
 
 To run the ros2 node which listens to the telemetry run:
+
 ```sh
 ros2 run mcs_ros2 telemetry_listener
 ```
 
 To run the ros2 node which listens to the camera run:
+
 ```sh
 ros2 run mcs_ros2 camera_listener
 ```
