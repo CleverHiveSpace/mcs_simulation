@@ -52,16 +52,11 @@ docker compose -f rviz.compose.yaml up
 
 ### Teleop
 
-Next, you can use the teleop_twist tool to control the ROSbot via your keyboard. To do this, enter the Rviz container in a new terminal:
-
 ```sh
-docker exec -it rviz bash
-```
-
-If you have ROS2 installed locally, you can operate the ROSbot either from your local setup or within the Rviz container by running:
-
-```sh
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+docker run --rm -it \
+   --network host --ipc host \
+   husarion/rviz2:humble \
+   bash -c 'source /opt/ros/humble/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard'
 ```
 
 ### Access the workspace

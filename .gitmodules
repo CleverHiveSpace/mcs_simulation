@@ -2,3 +2,6 @@
 	path = src/mcs_webots_ros2
 	url = git@github.com:CleverHiveSpace/mcs_webots_ros2.git
 	branch = mcs
+[submodule "external/mcs_bridge"]
+	path = external/mcs_bridge
+	url = git@github.com:CleverHiveSpace/mcs_bridge.git

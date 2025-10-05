@@ -26,3 +26,21 @@ services:
       - /dev/dri:/dev/dri
       - ./src:/mcs_ws/src
     command: bash -c 'cd /mcs_ws && source /opt/ros/humble/setup.bash && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive rosbot_launch.py gui:=true'
+
+  webots-mcs-bridge:
+    build:
+      context: ./external/mcs_bridge
+      dockerfile: Dockerfile
+    <<: [*net-config]
+    env_file:
+      - ./external/mcs_bridge/.env
+    command: ["--bridge-type", "ros2"]
+    depends_on:
+      - webots-local
+
+  webots-rviz:
+    image: husarion/rviz2:humble
+    <<: [*net-config, *gpu-config]
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./config/rosbot.rviz:/root/.rviz2/default.rviz
