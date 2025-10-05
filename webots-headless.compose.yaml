@@ -20,4 +20,15 @@ services:
       - TRANSITIVE_ID=${TRANSITIVE_ID}
       - TRANSITIVE_TOKEN=${TRANSITIVE_TOKEN}
       - TR_DISPLAYNAME=${TR_DISPLAYNAME}
-    <<: [ *net-config, *gpu-config ]
+    <<: [*net-config, *gpu-config]
+
+  webots-mcs-bridge:
+    build:
+      context: ./external/mcs_bridge
+      dockerfile: Dockerfile
+    <<: [*net-config]
+    env_file:
+      - ./external/mcs_bridge/.env
+    command: ["--bridge-type", "ros2"]
+    depends_on:
+      - webots-headless
