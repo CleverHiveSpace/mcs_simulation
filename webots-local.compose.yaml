@@ -27,6 +27,16 @@ services:
       - ./src:/mcs_ws/src
     command: bash -c 'cd /mcs_ws && source /opt/ros/humble/setup.bash && colcon build && source ./install/setup.bash && ros2 launch webots_ros2_cleverhive rosbot_launch.py gui:=true'
 
+  webots-transitive:
+    build:
+      context: ./external/mcs_transitive
+      dockerfile: Dockerfile
+    privileged: true
+    <<: [*net-config, *gpu-config]
+    env_file:
+      - ./external/mcs_transitive/.env
+    restart: unless-stopped
+
   webots-mcs-bridge:
     build:
       context: ./external/mcs_bridge

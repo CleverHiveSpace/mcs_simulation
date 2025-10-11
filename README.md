@@ -16,7 +16,26 @@ Webots / ROS 2 simulation for MCS.
 - Git
 - (local installation) Installed ROS2 locally (Humble / Jazzy). For installation instructions, refer to: [ROS2 Installation Guide](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)
 
-## Simulation locally with X11
+## Installation
+
+### Headless
+
+Run the simulation in the headless mode. Keep in mind `privileged` flag is required for the container to work and GPU is required - you cannot simply run the container in most of the cloud providers.
+
+1. Clone this repository:
+   ```sh
+   git@github.com:CleverHiveSpace/mcs-ros2.git
+   ```
+2. Initialize the submodules:
+   ```sh
+   git submodule update --init --recursive
+   ```
+3. Start the simulation:
+   ```sh
+   docker compose -f webots-headless.compose.yaml up
+   ```
+
+### Locally with X11
 
 1. Clone this repository:
    ```sh
@@ -40,14 +59,6 @@ Webots / ROS 2 simulation for MCS.
 
 ![RViz window](./docs/images/webots.jpg)
 
-### RViz
-
-To visualize the ROSbot's sensor data, you can run RViz2 within Docker:
-
-```sh
-docker compose -f rviz.compose.yaml up
-```
-
 ![RViz window](./docs/images/rviz.jpg)
 
 ### Teleop
@@ -57,6 +68,14 @@ docker run --rm -it \
    --network host --ipc host \
    husarion/rviz2:humble \
    bash -c 'source /opt/ros/humble/setup.bash && ros2 run teleop_twist_keyboard teleop_twist_keyboard'
+```
+
+## Development
+
+### Rebuilding one service without caching
+
+```sh
+docker compose -f webots-local.compose.yaml build --no-cache webots-mcs-bridge
 ```
 
 ### Access the workspace
@@ -118,7 +137,10 @@ The original Docker image used in the simulation is `husarion/webots-docker`. A 
 > In case you want to install webots nightly version manually, here are the installers:
 > [R2024a Nightly Build 8/8/2023 d9de48d3bb9d9a31b101e1f198912df810a65a46](https://github.com/CleverHiveSpace/webots-R2024a-x86-64)
 
-## MCS Edge Node (local)
+## MCS Edge Node
+
+> [!WARNING]  
+> This software is deprecated. Please use MCS Bridge instead.
 
 If you don't have colcon installed, run:
 
