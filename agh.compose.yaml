@@ -1,0 +1,26 @@
+x-net-config: &net-config
+  network_mode: host
+  ipc: host
+  env_file: net.env
+
+services:
+  webots-transitive:
+    build:
+      context: ./external/mcs_transitive
+      dockerfile: Dockerfile
+    privileged: true
+    <<: [*net-config, *gpu-config]
+    env_file:
+      - ./external/mcs_transitive/.env
+    restart: unless-stopped
+
+  webots-mcs-bridge:
+    build:
+      context: ./external/mcs_bridge
+      dockerfile: Dockerfile
+    <<: [*net-config]
+    env_file:
+      - ./external/mcs_bridge/.env
+    command: ["--bridge-type", "ros2"]
+    depends_on:
+      - webots-headless
