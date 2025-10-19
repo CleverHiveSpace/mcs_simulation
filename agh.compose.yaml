@@ -22,5 +22,3 @@ services:
     env_file:
       - ./external/mcs_bridge/.env
     command: ["--bridge-type", "ros2"]
-    depends_on:
-      - webots-headless
