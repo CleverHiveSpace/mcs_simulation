@@ -9,7 +9,7 @@ services:
       context: ./external/mcs_transitive
       dockerfile: Dockerfile
     privileged: true
-    <<: [*net-config, *gpu-config]
+    <<: [*net-config]
     env_file:
       - ./external/mcs_transitive/.env
     restart: unless-stopped
