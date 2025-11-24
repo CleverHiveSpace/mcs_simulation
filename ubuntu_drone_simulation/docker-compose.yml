@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  gz-server:
+    build: ./gz-server
+    container_name: gazebo-server
+    environment:
+      - GZ_PARTITION=gazebo
+      - QT_QPA_PLATFORM=offscreen
+      - GZ_SIM_RENDER_ENGINE=no_render
+      - GZ_GUI_CONFIG_PATH=/dev/null
+      - GZ_SIM_RESOURCE_PATH=/workspace/models:/workspace/worlds/harmonic_world
+    volumes:
+      - ./worlds:/workspace/worlds:ro
+    ports:
+    # Gazebo transport
+      - "11345:11345"  
+    # Foxglove Bridge WebSocket
+      - "8765:8765"     
+    command: /workspace/worlds/harmonic_world/
+    networks:
+      - gazebo-net
+  gz-client:
+    build: ./gz-client
+    container_name: gazebo-client
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - DISPLAY=:1
+      - GZ_PARTITION=gazebo
+      - QT_X11_NO_MITSHM=1
+      - XDG_RUNTIME_DIR=/tmp/runtime-root
+      - NVIDIA_VISIBLE_DEVICES=all     # Add this
+      - NVIDIA_DRIVER_CAPABILITIES=all # Add this
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./worlds:/workspace/worlds:ro
+    networks:
+      - gazebo-net   
+    depends_on:
+      - gz-server
+    command: bash -c "sleep 3 && gz sim -g"
+
+networks:
+  gazebo-net:
+    driver: bridge
