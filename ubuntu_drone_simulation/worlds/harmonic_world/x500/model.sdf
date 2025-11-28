@@ -506,8 +506,9 @@
     </joint>
     
     <!-- Camera Link -->
+    
     <link name="camera_link">
-      <pose>0.1 0 0 0 0 0</pose>
+      <pose>0.13 0 0.01 0 0 0</pose>
       <inertial>
         <mass>0.015</mass>
         <inertia>
@@ -550,15 +551,10 @@
             <near>0.1</near>
             <far>100</far>
           </clip>
-          <noise>
-            <type>gaussian</type>
-            <mean>0.0</mean>
-            <stddev>0.007</stddev>
-          </noise>
         </camera>
         <always_on>1</always_on>
-        <update_rate>15</update_rate>
-        <visualize>true</visualize>
+        <update_rate>30</update_rate>
+        <visualize>false</visualize>
         <topic>/drone/camera</topic>
       </sensor>
     </link>
@@ -585,7 +581,7 @@
       </inertial>
       <sensor name="imu_sensor" type="imu">
         <always_on>1</always_on>
-        <update_rate>100</update_rate>
+        <update_rate>50</update_rate>
         <visualize>false</visualize>
         <topic>drone/imu</topic>
         <imu>
@@ -839,33 +835,52 @@
             name="gz::sim::systems::AirPressure">
     </plugin>
 
-    <!-- PX4 Control Plugin (Gazebo Harmonic) -->
-    <plugin
-        name="gz::sim::systems::Px4HarmonicControl"
-        filename="gz-sim-px4-harmonic-control-system">
-
-      <!-- Name of your model -->
-      <modelName>x500</modelName>
-
-      <!-- Input sensors for PX4 -->
-      <imuTopic>drone/imu</imuTopic>
-      <baroTopic>drone/air_pressure</baroTopic>
-      <gpsTopic>drone/navsat</gpsTopic>
-
-      <!-- PX4 actuator output -->
-      <actuatorTopic>/px4/actuator_motors</actuatorTopic>
-
-      <!-- Command inputs to PX4 -->
-      <vehicleCommandTopic>/drone/cmd_vel</vehicleCommandTopic>
-      <trajectorySetpointTopic>/drone/trajectory_setpoint</trajectorySetpointTopic>
-
-      <!-- Your motor joints -->
-      <jointNames>
-        rotor_0_joint
-        rotor_1_joint
-        rotor_2_joint
-        rotor_3_joint
-      </jointNames>
-    </plugin>    
+    <!-- Drone controller -->
+    <plugin filename="gz-sim-multicopter-control-system"
+            name="gz::sim::systems::MulticopterVelocityControl">
+      <robotNamespace>drone</robotNamespace>
+      <commandSubTopic>cmd_vel</commandSubTopic>
+      <motorControlPubTopic>command/motor_speed</motorControlPubTopic>
+      <enableSubTopic>enable</enableSubTopic>
+      <comLinkName>base_link</comLinkName>
+      
+      <!-- Rotor Configuration (REQUIRED) -->
+      <rotorConfiguration>
+        <rotor>
+          <jointName>rotor_0_joint</jointName>
+          <forceConstant>8.54858e-06</forceConstant>
+          <momentConstant>0.016</momentConstant>
+          <direction>1</direction>
+        </rotor>
+        <rotor>
+          <jointName>rotor_1_joint</jointName>
+          <forceConstant>8.54858e-06</forceConstant>
+          <momentConstant>0.016</momentConstant>
+          <direction>1</direction>
+        </rotor>
+        <rotor>
+          <jointName>rotor_2_joint</jointName>
+          <forceConstant>8.54858e-06</forceConstant>
+          <momentConstant>0.016</momentConstant>
+          <direction>-1</direction>
+        </rotor>
+        <rotor>
+          <jointName>rotor_3_joint</jointName>
+          <forceConstant>8.54858e-06</forceConstant>
+          <momentConstant>0.016</momentConstant>
+          <direction>-1</direction>
+        </rotor>
+      </rotorConfiguration>
+      
+      <!-- Controller Gains -->
+      <velocityGain>2.7 2.7 2.7</velocityGain>
+      <attitudeGain>2.0 2.0 0.25</attitudeGain>
+      <angularRateGain>0.4 0.4 0.4</angularRateGain>
+      
+      <!-- Limits -->
+      <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+      <maximumLinearVelocity>5 5 5</maximumLinearVelocity>
+      <maximumAngularVelocity>3 3 3</maximumAngularVelocity>
+    </plugin>
   </model>
 </sdf>

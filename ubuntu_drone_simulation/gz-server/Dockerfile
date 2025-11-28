@@ -34,8 +34,7 @@ RUN apt-get update \
  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
       http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" \
       > /etc/apt/sources.list.d/gazebo-stable.list \
- && apt-get update && apt-get install -y gz-harmonic 
-
+ && apt-get update && apt-get install -y gz-harmonic
 # -----------------------------
 # Setup environment
 # -----------------------------

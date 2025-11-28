@@ -2,9 +2,16 @@
 <sdf version="1.8">
   <world name="harmonic_world">
     
-    <physics name="bullet" type="bullet-featherstone">
-      <max_step_size>0.001</max_step_size>
+    <physics name="dart_physics" type="dart">
+      <max_step_size>0.005</max_step_size>
       <real_time_factor>1.0</real_time_factor>
+      <dart>
+        <collision_detector>bullet</collision_detector>
+        <solver>
+          <solver_type>pgs</solver_type> 
+          <num_iterations>10</num_iterations>
+        </solver>
+      </dart>
     </physics>
     
     <plugin filename="gz-sim-physics-system" 
@@ -16,6 +23,7 @@
     <plugin filename="gz-sim-sensors-system" 
             name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
+      <gpu>true</gpu>
     </plugin>
 
 
@@ -36,9 +44,8 @@
         <time>10</time>
         <sunrise>6</sunrise>
         <sunset>18</sunset>
-        <cloud_speed>0.6</cloud_speed>
       </sky>
-      <shadows>true</shadows>
+      <shadows>false</shadows>
     </scene>
     
     <!-- Light -->
